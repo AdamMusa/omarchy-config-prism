@@ -103,8 +103,14 @@ class SuiteBackend
     ]
     rows = []
     pairs.each do |user_root, stock_root|
-      user_files = relative_files(user_root)
-      stock_files = relative_files(stock_root)
+      ignored = lambda do |relative|
+        basename = File.basename(relative)
+        relative.start_with?("plugins/") || relative.start_with?("themes/") ||
+          basename.end_with?("~") || basename.include?(".bak") ||
+          basename.end_with?(".backup") || basename.end_with?(".old")
+      end
+      user_files = relative_files(user_root).reject { |relative| ignored.call(relative) }
+      stock_files = relative_files(stock_root).reject { |relative| ignored.call(relative) }
       (user_files + stock_files).uniq.sort.first(MAX_ITEMS).each do |relative|
         user_path = File.join(user_root, relative)
         stock_path = File.join(stock_root, relative)
