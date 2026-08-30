@@ -325,6 +325,18 @@ OmarchyUI.plugin do
     end
   end
 
+  first_number = lambda do |value|
+    number = 0
+    value.to_s.split.each do |token|
+      candidate = token.to_i
+      if candidate > 0
+        number = candidate
+        break
+      end
+    end
+    number
+  end
+
   bar_widget do
     row spacing: 7 do
       icon :code, color: "#9b8cff"
@@ -356,7 +368,7 @@ OmarchyUI.plugin do
             stock_only = entries.count { |entry| entry.fetch("status", "") == "stock only" }
             row spacing: 24 do
               column spacing: 0 do
-                text entries.length.to_s.rjust(2, "0"), size: 44, bold: true, color: "#9b8cff"
+                text state.snapshot.fetch("score").to_s.rjust(2, "0"), size: 44, bold: true, color: "#9b8cff"
                 text "configuration differences", style: :caption
               end
               bar_chart [modified, user_only, stock_only], labels: ["modified", "user", "stock"], width: 420, height: 94,
