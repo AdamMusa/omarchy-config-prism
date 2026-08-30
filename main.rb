@@ -305,9 +305,9 @@ OmarchyUI.plugin do
 
   status_color = lambda do |status|
     value = status.to_s.downcase
-    if value.match?(/broken|critical|missing|mismatch|drift|inactive|slow|tight|hotspot|invalid/)
+    if value =~ /broken|critical|missing|mismatch|drift|inactive|slow|tight|hotspot|invalid/
       "#ff6b78"
-    elsif value.match?(/ready|valid|verified|finished|aligned|unique|internal|familiar|steady|covered|available|detected|normal/)
+    elsif value =~ /ready|valid|verified|finished|aligned|unique|internal|familiar|steady|covered|available|detected|normal/
       "#9b8cff"
     else
       "#efc66b"
@@ -316,9 +316,9 @@ OmarchyUI.plugin do
 
   status_icon = lambda do |status|
     value = status.to_s.downcase
-    if value.match?(/broken|critical|missing|mismatch|drift|inactive|slow|tight|hotspot|invalid/)
+    if value =~ /broken|critical|missing|mismatch|drift|inactive|slow|tight|hotspot|invalid/
       :warning
-    elsif value.match?(/ready|valid|verified|finished|aligned|unique|internal|familiar|steady|covered|available|detected|normal/)
+    elsif value =~ /ready|valid|verified|finished|aligned|unique|internal|familiar|steady|covered|available|detected|normal/
       :circle_check
     else
       :circle_info
