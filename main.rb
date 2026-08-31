@@ -363,68 +363,109 @@ OmarchyUI.plugin do
   end
 
   bar_widget do
-    row spacing: 7 do
-      icon :code, color: "#9b8cff"
-      text { state.snapshot.fetch("summary") }
+    row spacing: 6 do
+      icon :code, size: 14, color: "#8bd5ca"
+      text "PRISM", style: :caption, color: "#8bd5ca"
+      text(style: :caption) { state.snapshot.fetch("summary") }
     end
     on_click { open_panel :config_prism }
   end
 
   panel :config_prism do
-    scroll width: 660, height: 760 do
+    scroll width: 660, height: 780 do
       dynamic id: :scene, spacing: 16 do
         entries = state.snapshot.fetch("items")
-        history = state.snapshot.fetch("history")
+        modified = entries.count { |entry| entry.fetch("status", "") == "modified" }
+        user_only = entries.count { |entry| entry.fetch("status", "") == "user only" }
+        stock_only = entries.count { |entry| entry.fetch("status", "") == "stock only" }
 
-        row spacing: 12 do
-          icon :code, size: 30, color: "#9b8cff"
-          column spacing: 2 do
-            text "Config Prism", style: :heading, width: 500
-            text state.snapshot.fetch("summary"), style: :caption, width: 500
-          end
-          action_button :refresh, tooltip: "Refresh", foreground: "#9b8cff" do
-            async(&refresh)
+        column spacing: 2 do
+          text "#{state.snapshot.fetch("score")} differences from the Omarchy baseline",
+               style: :caption, width: 610
+          row spacing: 9 do
+            text "Config", size: 30, bold: true
+            icon :code, size: 22, color: "#d8ff73"
+            text "Prism", size: 30, bold: true, width: 455
+            action_button :refresh, tooltip: "Rescan configuration", foreground: "#d8ff73" do
+              async(&refresh)
+            end
           end
         end
 
         separator
-        modified = entries.count { |entry| entry.fetch("status", "") == "modified" }
-            user_only = entries.count { |entry| entry.fetch("status", "") == "user only" }
-            stock_only = entries.count { |entry| entry.fetch("status", "") == "stock only" }
-            row spacing: 24 do
-              column spacing: 0 do
-                text state.snapshot.fetch("score").to_s.rjust(2, "0"), size: 44, bold: true, color: "#9b8cff"
-                text "configuration differences", style: :caption
-              end
-              bar_chart [modified, user_only, stock_only], labels: ["modified", "user", "stock"], width: 420, height: 94,
-                colors: ["#9b8cff", "#efc66b", "#7da7ff"], show_grid: false, bar_spacing: 18
+        column spacing: 2 do
+          text "LIVE CONFIGURATION", style: :caption, color: "#d8ff73"
+          row spacing: 0 do
+            text "━━━━━━━━━━━━━━━━━━", size: 19, color: "#d8ff73"
+            text "◆", size: 28, bold: true, color: "#f5f0de"
+          end
+        end
+
+        row spacing: 15 do
+          column spacing: 3 do
+            text "                                   ╲━━━━━━━━━━━━━━", size: 14, color: "#ff8b8b"
+            text "                                      ╲━━━━━━━━━━━", size: 14, color: "#d8ff73"
+            text "                                         ╲━━━━━━━━", size: 14, color: "#7dcfff"
+          end
+          column spacing: 5 do
+            row spacing: 8 do
+              text modified.to_s.rjust(2, "0"), size: 18, bold: true, color: "#ff8b8b", width: 28
+              text "MODIFIED", style: :caption, color: "#ff8b8b"
             end
-            row spacing: 18 do
-              text "#{modified} modified", style: :caption, color: "#9b8cff"
-              text "#{user_only} user-only", style: :caption
-              text "#{stock_only} stock-only", style: :caption
+            row spacing: 8 do
+              text user_only.to_s.rjust(2, "0"), size: 18, bold: true, color: "#d8ff73", width: 28
+              text "USER ONLY", style: :caption, color: "#d8ff73"
             end
-            separator
-            section_header "Configuration drift"
-            if entries.empty?
-              column spacing: 8 do
-                        icon :code, size: 34, color: "#9b8cff"
-                        text "Nothing to show yet", style: :heading
-                        text "Your live configuration currently matches the packaged baseline.", style: :caption, wrap: true, width: 560
-                      end
-            else
-              entries.first(16).each_with_index do |entry, index|
-                row spacing: 10 do
-                  icon status_icon.call(entry.fetch("status", "")), size: 15, color: status_color.call(entry.fetch("status", ""))
-                  column spacing: 2 do
-                    text entry.fetch("title"), width: 430, wrap: true
-                    text entry.fetch("detail", ""), style: :caption, width: 430
-                  end
-                  text entry.fetch("status", ""), style: :caption, color: status_color.call(entry.fetch("status", ""))
+            row spacing: 8 do
+              text stock_only.to_s.rjust(2, "0"), size: 18, bold: true, color: "#7dcfff", width: 28
+              text "PACKAGED", style: :caption, color: "#7dcfff"
+            end
+          end
+        end
+        text "PACKAGED BASELINE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━○",
+             style: :caption, color: "#829088"
+        separator
+
+        row spacing: 10 do
+          text "DIFF RAYS", size: 12, bold: true, color: "#d8ff73", width: 500
+          text "READ ONLY", style: :caption, color: "#829088"
+        end
+
+        if entries.empty?
+          column spacing: 7 do
+            icon :circle_check, size: 30, color: "#d8ff73"
+            text "Live configuration is aligned", size: 22, bold: true
+            text "Your user-owned files currently match the packaged baseline.",
+                 style: :caption, wrap: true, width: 560
+          end
+        else
+          entries.first(12).each_with_index do |entry, index|
+            status = entry.fetch("status", "")
+            ray_color = status == "modified" ? "#ff8b8b" : (status == "stock only" ? "#7dcfff" : "#d8ff73")
+            column spacing: 4 do
+              row spacing: 10 do
+                text (index + 1).to_s.rjust(2, "0"), style: :caption, color: ray_color, width: 24
+                column spacing: 1 do
+                  text entry.fetch("title"), width: 440, size: 16, bold: true, wrap: true
+                  text entry.fetch("detail", ""), style: :caption, width: 440, wrap: true
                 end
-                separator unless index == [entries.length, 16].min - 1
+                text status.upcase, style: :caption, color: ray_color, width: 105
               end
+              if status == "modified"
+                text "    LIVE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●", style: :caption, color: "#ff8b8b"
+                text "    BASE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━○", style: :caption, color: "#829088"
+              elsif status == "stock only"
+                text "    LIVE  ·", style: :caption, color: "#829088"
+                text "    BASE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●", style: :caption, color: "#7dcfff"
+              else
+                text "    LIVE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●", style: :caption, color: "#d8ff73"
+                text "    BASE  ·", style: :caption, color: "#829088"
+              end
+              text "    #{entry.fetch("meta", "")}", style: :caption, width: 560, color: "#829088", wrap: true
             end
+            separator unless index == [entries.length, 12].min - 1
+          end
+        end
       end
     end
   end
