@@ -5,13 +5,13 @@ Omarchy host QML graph. Generated QML source contents were discarded after AOT c
 
 - Format: `qt-aot-qml-module` version 1
 - Qt: `6.11.2`
-- Module: `OmarchyUI.Bundles.B900779379ff3c86438fd`
-- Source fingerprint: `900779379ff3c86438fd510b65632b7c6aa6c916fa94c7fa8819f80b5e907032`
+- Module: `OmarchyUI.Bundles.B4048fb4d5d26cc368994`
+- Source fingerprint: `4048fb4d5d26cc368994c1c1f349de512154a69e7a93dbcfc678f60c4c716b78`
 
 ## Artifacts
 
-- `OmarchyUI/Bundles/B900779379ff3c86438fd/libomarchy_ui_bundle_b900779379ff3c86438fd.so` — `ab6129c0e7d877d598c7d194e34e1f317a87f965dba4e88cb97df8ad401e6c13`
-- `OmarchyUI/Bundles/B900779379ff3c86438fd/libomarchy_ui_bundle_b900779379ff3c86438fdplugin.so` — `2a3f073c6691ac400c50130a6253eb4317f28603913fd1aba02e7758203375d7`
+- `OmarchyUI/Bundles/B4048fb4d5d26cc368994/libomarchy_ui_bundle_b4048fb4d5d26cc368994.so` — `6013fbc761207ab38ad324cf399a156989073f218d0a2a73c4ae92919f11bb33`
+- `OmarchyUI/Bundles/B4048fb4d5d26cc368994/libomarchy_ui_bundle_b4048fb4d5d26cc368994plugin.so` — `dca45911081f1ec14ab10386910034bf787df37ee824ac3f3449cad9ce7b072a`
 
 Verify the packaged libraries from the plugin directory:
 

@@ -2,18 +2,16 @@
   "zui_version": "0.0.10",
   "components": [
     "action_button",
-    "bar_chart",
     "column",
     "container",
     "icon",
     "row",
     "scroll",
-    "section_header",
     "separator",
     "text"
   ],
   "before_bytes": 1549503,
-  "after_bytes": 913641,
-  "saved_bytes": 635862,
+  "after_bytes": 910065,
+  "saved_bytes": 639438,
   "warnings": []
 }

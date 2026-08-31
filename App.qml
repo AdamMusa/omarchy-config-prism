@@ -1,4 +1,4 @@
 import QtQuick
-import OmarchyUI.Bundles.B900779379ff3c86438fd as Compiled
+import OmarchyUI.Bundles.B4048fb4d5d26cc368994 as Compiled
 
 Compiled.App {}
