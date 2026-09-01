@@ -62,21 +62,6 @@ rm -r ~/.local/state/omarchy-config-prism
 - Kinds: service, bar widget, panel
 - Target: Omarchy Quattro on x86-64 Linux
 
-## Development
-
-The user interface is written entirely in Ruby with [Omarchy UI](https://github.com/AdamMusa/omarchy-ui).
-The repository contains the thin Omarchy QML bridge, attested mruby runtime, and Zui's generated
-QML runtime reduced to the components referenced by this plugin. `zui-tree-shake.json` records
-the selected component set and byte reduction.
-
-```bash
-sha256sum --check omarchy-ui-runtime.sha256
-ruby test/backend_test.rb
-omarchy plugin validate .
-```
-
-Runtime provenance and independent verification steps are documented in [`RUNTIME_PROVENANCE.md`](RUNTIME_PROVENANCE.md).
-
 ## License
 
 MIT.
