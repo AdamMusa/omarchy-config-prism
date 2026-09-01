@@ -9,6 +9,13 @@ Config Prism compares user-owned Omarchy and Hyprland files with the currently i
 
 ![Config Prism preview](preview.png)
 
+## Built entirely in Ruby
+
+All application behavior, system integration, and UI declarations are authored in
+Ruby. There is no handwritten QML source. Omarchy UI compiles the Ruby-declared UI
+into `OmarchyUI/Bundles/` and emits the tiny root QML loader shims required by the
+plugin manifest; those shims are generated packaging output.
+
 ## Why this is distinct
 
 Unlike configuration time machines, Config Prism compares the present configuration to the present Omarchy package baseline; it does not snapshot, restore, or overwrite files.
